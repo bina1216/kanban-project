@@ -254,8 +254,10 @@ graph TD
 
 - 전체 화면
   ![전체화면](kanban.png)
+  
 - 카드 제작 화면
   ![카드제작](createcard.png)
+  
 - 카드 상세 내용 패널 화면
   ![패널](panel.png)
   
