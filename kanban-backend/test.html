@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>업로드 테스트</title>
+</head>
+<body>
+    <h2>📸 이미지 업로드 테스트</h2>
+    <input type="file" id="imageInput">
+    <button onclick="uploadImage()">서버로 전송!</button>
+    <h3 id="result" style="color: blue;"></h3>
+
+    <script>
+        function uploadImage() {
+            const fileInput = document.getElementById('imageInput');
+            const file = fileInput.files[0];
+            
+            if (!file) {
+                alert('먼저 사진을 선택해주세요!');
+                return;
+            }
+
+            // 🚨 핵심: 파일을 보낼 때는 JSON 대신 'FormData'라는 특수 택배 상자를 씁니다.
+            const formData = new FormData();
+            formData.append('image', file); // 서버에서 기다리는 이름표('image') 그대로 붙여줌!
+
+            // 우리 서버로 택배 발송!
+            fetch('http://localhost:4000/upload', {
+                method: 'POST',
+                body: formData // 파일이 담긴 상자를 그대로 보냄
+            })
+            .then(res => res.json())
+            .then(data => {
+                // 성공하면 화면에 서버가 준 이미지 링크를 띄워줍니다.
+                document.getElementById('result').innerHTML = 
+                    `<a href="${data.imageUrl}" target="_blank">🎉 업로드 성공! 여기를 눌러 확인해보세요</a>`;
+            })
+            .catch(err => console.error('에러:', err));
+        }
+    </script>
+</body>
+</html>

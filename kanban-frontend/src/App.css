@@ -1,0 +1,554 @@
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.8/dist/web/static/pretendard.css");
+
+/* 1. 기본 스타일 및 세로선 박멸 */
+html, body, #root { 
+  margin: 0; padding: 0; border: none !important; outline: none !important; 
+  background-color: #ffffff; overflow-x: hidden; 
+}
+* { box-sizing: border-box; font-family: 'Pretendard', sans-serif; }
+body { padding: 40px; }
+
+/* 컨테이너 및 헤더 (왼쪽 여백 80px) */
+.app-container { max-width: 1600px; margin-left: 80px; margin-top: 20px; border: none !important; }
+
+.app-header { 
+  display: flex; justify-content: flex-start; border-bottom: 2px solid #000; 
+  width: fit-content; min-width: 1000px; padding: 10px 0; margin-bottom: 25px; 
+}
+.project-title { font-size: 2.8rem; font-weight: 900; color: #000; }
+
+/* 필터바 */
+.filter-bar { display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
+  gap: 15px;
+  padding: 10px 20px; }
+.search-box, .dropdown { 
+  display: flex; align-items: center; gap: 8px; 
+  background-color: #f0f0f0; padding: 8px 18px; border-radius: 20px; 
+  font-size: 0.85rem; color: #555; 
+}
+.icon-svg { color: #666; vertical-align: middle; }
+
+/* 보드 & 컬럼 (배경색 아주 연한 회색) */
+.board-layout { display: flex; align-items: flex-start; gap: 15px; }
+.board-main { display: flex; gap: 20px; }
+.board-column { background-color: #f8f9fa; border-radius: 12px; width: 280px; padding: 15px; }
+
+.column-header { 
+  display: flex; justify-content: space-between; align-items: center; 
+  background-color: #fff; border-radius: 20px; padding: 8px 18px; margin-bottom: 15px; 
+}
+.column-title { font-size: 1.1rem; font-weight: 800; color: #333 !important; }
+.card-count { 
+  background: #d1d1d1; color: #555; border-radius: 50%; 
+  width: 20px; height: 20px; display: flex; align-items: center; justify-content: center; 
+  font-size: 0.7rem; font-weight: 700; 
+}
+
+/* 개별 카드 디자인 (여백 꽉 찬 느낌) */
+.card-item { 
+  background-color: #fff; 
+  border-radius: 8px; 
+  padding: 6px 12px 12px 12px; 
+  margin-bottom: 12px; 
+  position: relative;
+  overflow: visible;
+  padding-top: 1px;
+}
+.card-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: flex-start;  
+  margin-top: 0px;
+  margin-bottom: 6px; 
+}
+.card-tag { 
+  font-size: 0.85rem; 
+  font-weight: 700; 
+  color: #555; 
+  line-height: 1;
+}
+.card-desc { 
+  font-size: 0.9rem; 
+  line-height: 1.5; 
+  color: #555; 
+  text-align: left; 
+  margin-bottom: 12px; 
+  word-break: break-all; 
+}
+.card-date { 
+  font-size: 0.9rem; 
+  font-weight: 500; 
+  color: #888; 
+  margin-bottom: 8px;
+  line-height: 1;
+  margin-top: 1px;
+  transform: translateY(5px); 
+  display: inline-block; 
+}
+
+.card-footer { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  padding-top: 8px; 
+  border-top: 1px solid #eeeeee; 
+  }
+.assignee-box { 
+  font-size: 0.8rem; 
+  font-weight: 500; 
+  color: #666; 
+}
+.footer-icons { 
+  display: flex; 
+  gap: 8px; 
+  align-items: center; 
+}
+.priority-icon { 
+  background-color: #cccccc; 
+  color: #fff; 
+  width: 22px; 
+  height: 22px; 
+  border-radius: 50%; 
+  display: flex; 
+  align-items: center; 
+  justify-content: center; 
+  font-size: 0.7rem; 
+  font-weight: 800; 
+}
+.card-color-bar {
+  width: 100%;
+  height: 8px;  
+  border-radius: 4px;
+  margin-top: 12px;
+  margin-bottom: -9px;
+}
+
+/* + 버튼들 (더 진하고 선명하게) */
+.add-card-btn-icon { width: 100%; background: none; border: none; font-size: 1.8rem; color: #666; cursor: pointer; margin-top: 10px; font-weight: 700; }
+.add-status-btn { background: none; border: none; font-size: 3.5rem; color: #333; cursor: pointer; }
+
+/* --- [모달 스타일] --- */
+.modal-overlay { 
+  position: fixed; top: 0; left: 0; width: 100vw; height: 100vh; 
+  background: rgba(0, 0, 0, 0.4); display: flex; align-items: center; justify-content: center; z-index: 1000; 
+}
+.modal-content { background: #fff; width: 620px; border-radius: 15px; padding: 30px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); }
+.modal-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #000; padding-bottom: 15px; margin-bottom: 25px; }
+.modal-title-input { font-size: 2.2rem; font-weight: 800; border: none; outline: none; width: 60%; color: #333; background: transparent;}
+.modal-header-btns { display: flex; gap: 20px; align-items: center; }
+.complete-btn, .close-btn { font-size: 1.2rem; font-weight: 800; border: none; background: none; cursor: pointer; color: #333; }
+
+/* 폼 정렬 (1:1 비율) */
+.form-row { display: flex; align-items: center; gap: 10px; margin-bottom: 18px; }
+.form-row label { width: 110px; font-weight: 800; font-size: 1rem; color: #333; flex-shrink: 0; text-align: left; }
+.form-row select, .form-row input { 
+  padding: 10px; border: none; border-radius: 8px; background-color: #f0f0f0; color: #333; font-weight: 600; width: 160px; min-width: 0; 
+}
+.form-row input[type="file"], 
+.form-row input[placeholder*="URL"] {
+  width: 100% !important;
+  flex: 1 !important;
+}
+
+/* 날짜 입력칸 (조금 더 길게) */
+.date-input { 
+  width: 230px !important; 
+  flex: none !important; 
+}
+
+.date-input::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  filter: invert(0.5); /* 아이콘 진하게 하는 건 여기! */
+  /* 여기서 width는 지워야 합니다! */
+}
+
+/* 3. 중요도 버튼 색상 (회색 통일) */
+.priority-selector { display: flex; gap: 10px; }
+.priority-btn { 
+  width: 32px; height: 32px; border-radius: 50%; border: none; background-color: #f0f0f0; 
+  cursor: pointer; font-weight: 800; color: #aaa; display: flex; align-items: center; justify-content: center; 
+}
+.priority-btn.active { background-color: #d1d1d1; color: #333; }
+
+/* 미니 + 버튼 */
+.mini-add-btn { background-color: #e0e0e0; border: none; border-radius: 50%; width: 28px; height: 28px; cursor: pointer; font-weight: 900; color: #333; }
+
+/* 4. 상세 설명 (왼쪽 정렬 완벽 반영) */
+.form-row-vertical { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; align-items: flex-start; }
+.form-row-vertical label { font-weight: 800; color: #333; font-size: 1.2rem; margin-bottom: 5px; text-align: left; width: 100%; }
+.form-row-vertical textarea { 
+  width: 100%; padding: 15px; border: 1px solid #eee; border-radius: 10px; resize: none; 
+  background-color: #fcfcfc; text-align: left; color: #333; font-size: 1rem; 
+}
+
+.detail-panel {
+  position: fixed;
+  top: 0;
+  right: -600px; /* 처음에는 화면 밖에 숨김 */
+  width: 550px;
+  height: 100vh;
+  background-color: #ffffff;
+  box-shadow: -5px 0 15px rgba(0,0,0,0.05);
+  transition: right 0.3s ease; /* 슥 나타나는 효과 */
+  padding: 40px 30px;
+  z-index: 900;
+  display: flex;
+  flex-direction: column;
+  border-left: 1px solid #eee;
+}
+
+/* 패널이 열렸을 때 위치 */
+.detail-panel.open {
+  right: 0;
+}
+
+/* 패널 닫기 버튼 (화살표 모양) */
+.panel-close-btn {
+  position: absolute;
+  top: 20px;
+  left: -22px; /* half out, half in, previous was -20px */
+  background: white;
+  border: 1px solid #ddd;
+  border-radius: 50%;
+  width: 44px; /* fixed size */
+  height: 44px;
+  cursor: pointer;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  
+  /* 1. 화살표 부활 및 완벽 중앙 정렬 */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #555; /* 화살표 색상 */
+  font-size: 1.4rem; /* 화살표 크기 */
+  font-weight: 700; /* 선명하게 */
+  z-index: 1000; /* bring forward */
+}
+
+.panel-title {
+  font-size: 2rem;
+  font-weight: 800;
+  margin-bottom: 30px;
+  color: #333;
+}
+
+/* 정보 그리드 레이아웃 */
+.panel-info-grid {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 20px;
+  margin-left: 45px; 
+  width: calc(100% - 70px);
+}
+
+.info-row {
+  display: flex;
+  justify-content: flex-start;
+  font-size: 1rem;
+}
+
+.info-row span {
+  width: 120px;
+  color: #888;
+  font-weight: 600;
+  text-align: left;
+}
+
+.info-row strong, .panel-link {
+  color: #333;
+  font-weight: 700;
+  text-align: left; /* 왼쪽 정렬 */
+  word-break: break-all; /* 링크 주소 길어도 줄바꿈 (5번 요청 대비) */
+}
+
+.panel-divider {
+  border: 0;
+  border-top: 1px solid #eee;
+  margin: 15px 0;
+}
+
+/* 상세 설명 섹션 */
+.panel-desc-section {
+  flex: 1;
+  margin-left: 45px; 
+  width: calc(100% - 70px);
+}
+
+.panel-label {
+  font-size: 1.2rem;
+  font-weight: 800;
+  margin-bottom: 15px;
+  color: #333;
+  text-align: left !important;
+  margin-left: 0;
+  display: block;
+}
+
+.panel-desc-box {
+  background-color: #f9f9f9;
+  padding: 20px;
+  border-radius: 10px;
+  min-height: 200px;
+  line-height: 1.6;
+  color: #555;
+  white-space: pre-wrap;  /* 띄어쓰기, 줄바꿈 유지 */
+  word-break: break-word; /* 너무 긴 단어는 줄바꿈 */
+  word-wrap: break-word;
+  text-align: left !important;
+}
+
+.dropdown-wrapper {
+  position: relative;
+}
+
+.dropdown {
+  cursor: pointer;
+  user-select: none; 
+}
+
+/* 아래로 내려오는 메뉴 박스 */
+.dropdown-menu {
+  position: absolute;
+  top: 110%; 
+  left: 0;
+  background-color: #ffffff;
+  border: 1px solid #eeeeee;
+  border-radius: 12px;
+  list-style: none;
+  padding: 8px 0;
+  margin: 0;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.08);
+  z-index: 2000; 
+  min-width: 120px;
+}
+
+/* 메뉴 내부 항목들 */
+.dropdown-menu li {
+  padding: 10px 18px;
+  font-size: 0.85rem;
+  color: #555;
+  cursor: pointer;
+  white-space: nowrap; 
+  transition: background 0.2s;
+}
+
+/* 마우스를 올렸을 때 */
+.dropdown-menu li:hover {
+  background-color: #f5f5f5;
+  color: #000;
+}
+
+.card-preview-img {
+  width: 100%;
+  height: 150px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-bottom: 10px;
+}
+
+/* 상세 패널 내 이미지 */
+.panel-main-img {
+  width: 100%;
+  max-height: 300px;
+  object-fit: contain;
+  background-color: #f0f0f0;
+  border-radius: 10px;
+  margin-bottom: 20px;
+}
+
+.image-hover-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* 실제 이미지는 처음에 숨김 */
+.hover-preview-img {
+  display: none;
+  position: absolute;
+  bottom: 30px; /* 아이콘 위로 띄움 */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 150px; /* 미리보기 크기 */
+  height: auto;
+  border-radius: 8px;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  z-index: 100;
+  border: 2px solid #fff;
+  background-color: #fff;
+}
+
+/* 아이콘에 마우스 올리면 이미지 표시 */
+.image-hover-container:hover .hover-preview-img {
+  display: block;
+}
+
+/* 아이콘 자체 스타일 (승빈님 취향대로) */
+.image-icon {
+  font-size: 1.1rem;
+  margin-left: 5px;
+}
+
+.image-hover-container { 
+  position: relative; 
+  display: inline-flex; 
+  margin-left: 8px; 
+}
+
+/* 호버 이미지 스타일 */
+.hover-preview-img { 
+  display: none; 
+  position: absolute; 
+  bottom: 30px; 
+  right: 0; 
+  width: 160px; 
+  border-radius: 8px; 
+  box-shadow: 0 4px 12px rgba(0,0,0,0.2); 
+  z-index: 1000; 
+  background: #fff; 
+  border: 1px solid #eee;
+}
+
+.image-hover-container:hover .hover-preview-img { 
+  display: block; 
+}
+
+
+.delete-btn {
+  background: #ff4d4f;
+  color: white;
+  border: none;
+  padding: 8px 12px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+.delete-btn:hover {
+  background: #ff1818;
+}
+
+.panel-header-actions {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽으로 밀기 */
+  align-items: center;
+  gap: 15px; /* 버튼 사이 간격 */
+  margin-bottom: 20px;
+}
+
+/* 닫기 버튼 (기존 위치 스타일 제거하고 이거로 대체) */
+.panel-close-btn {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #333;
+  padding: 0;
+  line-height: 1;
+}
+
+/* 패널 상단 삭제 버튼 */
+.panel-delete-btn-top {
+  /* 승빈님 보드 이미지의 검색창/카드와 유사한 연회색 배경 */
+  background-color: #f2f2f2; 
+  /* 글자색은 너무 흐리지 않게 회색 */
+  color: #555; 
+  border: 1px solid #ddd; /* 아주 옅은 테두리 */
+  padding: 6px 14px;
+  border-radius: 20px; /* 필터 버튼들처럼 둥글게 */
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s ease; /* 호버 효과 부드럽게 */
+}
+
+.card-item:active {
+  cursor: grabbing;
+  opacity: 0.5;
+}
+
+/* 드래그 가능한 아이템이라는 표시 */
+.card-item {
+  cursor: grab;
+  transition: transform 0.1s ease;
+}
+
+.progress-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-left: 20px; /* 드롭다운과의 간격 */
+}
+
+/* 바 전체 바구니 */
+.multi-progress-bar {
+  display: flex;
+  height: 10px;
+  width: 250px;
+  background-color: #eee;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* 각 상태별 색상 (차분한 뮤트톤) */
+.progress-segment {
+  height: 100%;
+  transition: width 0.4s ease; /* 👈 이게 있어야 바가 부드럽게 움직여요! */
+}
+
+.progress-segment.done { background-color: #a3cfbb; }        /* 민트 (완료) */
+.progress-segment.in-progress { background-color: #cfe2ff; } /* 연파랑 (진행중) */
+.progress-segment.todo { background-color: #e9ecef; }        /* 연회색 (예정) */
+
+.progress-percentage {
+  font-size: 13px;
+  font-weight: bold;
+  color: #888;
+}
+
+.panel-edit-btn {
+  background-color: #f2f2f2;
+  color: #555;
+  border: 1px solid #ddd;
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 13px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.panel-edit-btn:hover {
+  background-color: #e2e6ea;
+  border-color: #ccc;
+  color: #000;
+}
+
+.card-title {
+  color: #222 !important; /* 가장 진한 색상으로 강제 적용 */
+  margin-bottom: 2px !important;
+}
+
+.card-date-row { 
+  display: flex; 
+  justify-content: space-between; 
+  align-items: center; 
+  margin-bottom: 8px; 
+  height: 24px;
+}
+
+.overdue-icon {
+  width: 20px;
+  height: 20px;
+  border: 2px solid #e77f67; /* 뮤트 레드 */
+  color: #e77f67;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  font-weight: 900;
+  background: transparent; /* 배경은 투명하게 */
+}
