@@ -196,24 +196,24 @@ END FUNCTION
 4.2 시스템 아키텍처 
 ```mermaid
 graph TD
+    %%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#e3dcfc', 'primaryTextColor': '#333', 'primaryBorderColor': '#7a67ee', 'lineColor': '#7a67ee', 'secondaryColor': '#f4f1bb', 'tertiaryColor': '#fff'}}}%%
+
     subgraph Tier1 [Tier 1: 클라이언트]
-        A[사용자 브라우저] --> B[React 애플리케이션]
+        A(사용자 브라우저) --> B[React 애플리케이션]
         B -- "Axios (HTTP 요청)" --> C
     end
 
     subgraph Tier2 [Tier 2: 애플리케이션 서버]
         C[Node.js / Express 서버]
-        C --> D[Multer: 파일 업로드]
-        C --> E[D-day 계산 로직]
+        C --> D{Multer: 파일 업로드}
+        C --> E{D-day 계산 로직}
     end
 
     subgraph Tier3 [Tier 3: 데이터베이스]
         C -- "SQL 쿼리" --> F[(MySQL)]
     end
 
-    style Tier1 fill:#f9f,stroke:#333,stroke-width:2px
-    style Tier2 fill:#bbf,stroke:#333,stroke-width:2px
-    style Tier3 fill:#dfd,stroke:#333,stroke-width:2px
+    %% 억지로 원색 fill을 주지 않고 테마에 맡김
 ```
 
 
