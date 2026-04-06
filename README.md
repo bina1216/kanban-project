@@ -48,6 +48,7 @@ React와 REST API를 활용한 비동기 데이터 통신을 통해 사용자에
 3. 설계
 
 3.1 클래스 다이어그램
+
 classDiagram
     class Board {
         +cards: Array
