@@ -193,8 +193,7 @@ END FUNCTION
 - 백엔드: Node.js, Express
 - 데이터베이스: MySQL 
 
-4.2 시스템 아키텍처
-```   
+4.2 시스템 아키텍처 
 C4Container
     title 3-Tier 시스템 아키텍처 다이어그램 (게임 개발 칸반 보드 프로젝트)
 
@@ -228,6 +227,6 @@ C4Container
 
     Rel(node_server, multer_middleware, "파일 저장 요청", "Express/Multer", "이미지 파일 업로드 및 uploads 폴더 기록")
     Rel(node_server, dday_logic, "로직 처리 요청", "JavaScript", "D-day 계산 및 데이터 정규화")
-```
+
 
 4.3 핵심 API 명세
