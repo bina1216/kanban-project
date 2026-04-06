@@ -67,7 +67,4 @@ classDiagram
     Board "1" --* "3" Column : contains
     Column "1" --* "n" Card : displays
 
-
-3.2 순서 다이어그램
-
 3.3 순서도.
