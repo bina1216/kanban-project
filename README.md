@@ -51,40 +51,40 @@ React와 REST API를 활용한 비동기 데이터 통신을 통해 사용자에
 
 ```mermaid
 classDiagram
-    class App_Frontend {
+    class App_React {
         +cards: Array
-        +selectedCard: Object
         +fetchCards()
         +handleSave()
         +onDrop(columnId)
         +getDDayInfo(dueDate)
     }
-    class Express_Backend {
-        +GET /cards
-        +POST /cards
-        +PUT /cards/:id
-        +DELETE /cards/:id
-        +multer_storage
+    class Column {
+        +label: String (To Do / In Progress / Done)
+        +id: int (1, 2, 3)
     }
-    class MySQL_Database {
+    class Card {
+        +title: String
+        +description: String
+        +assignee: String
+        +priority: String
+        +due_date: Date
+        +tag: String
+        +color: String
+    }
+    class Express_Server {
+        +app.get('/cards')
+        +app.post('/cards')
+        +app.put('/cards/:id')
+    }
+    class MySQL_DB {
         <<Table>>
         cards
-        --
-        +id: int(PK)
-        +column_id: int
-        +title: varchar
-        +description: text
-        +assignee: varchar
-        +start_date: date
-        +due_date: date
-        +tag: varchar
-        +priority: varchar
-        +image_url: varchar
-        +color: varchar
     }
 
-    App_Frontend ..> Express_Backend : Axios (JSON/FormData)
-    Express_Backend --> MySQL_Database : mysql2.query()
+    App_React "1" --* "3" Column : 관리 및 렌더링
+    Column "1" --* "n" Card : 데이터 매핑
+    App_React ..> Express_Server : Axios 통신
+    Express_Server --> MySQL_DB : SQL 쿼리 실행
 ```
 
 3.3 순서도.
