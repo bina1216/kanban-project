@@ -66,5 +66,6 @@ classDiagram
     }
     Board "1" --* "3" Column : contains
     Column "1" --* "n" Card : displays
+```
 
 3.3 순서도.
