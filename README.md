@@ -87,4 +87,18 @@ classDiagram
     Express_Server --> MySQL_DB : SQL 쿼리 실행
 ```
 
-3.3 순서도.
+3.2 순서 다이어그램
+```mermaid
+sequenceDiagram
+    participant U as 사용자
+    participant F as App.jsx (React)
+    participant B as server.js (Node.js)
+    participant D as MySQL
+
+    U->>F: 카드를 다른 컬럼으로 드롭 (onDrop)
+    F->>B: axios.put('/cards/:id', { ...draggedCard, column_id })
+    B->>D: UPDATE cards SET column_id = ? WHERE id = ?
+    D-->>B: Query Success
+    B-->>F: res.json({ message: '수정 완료' })
+    F->>F: fetchCards() 호출 (화면 갱신)
+```
