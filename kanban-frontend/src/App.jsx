@@ -67,7 +67,7 @@ function App() {
     setNewCard({
       title: selectedCard.title || '',
       assignee: selectedCard.assignee || '',
-      startDate: toYYYYMMDD(selectedCard.start_date) || '', // 함수 적용
+      startDate: toYYYYMMDD(selectedCard.start_date) || '',
       dueDate: toYYYYMMDD(selectedCard.due_date) || '',
       tag: selectedCard.tag || '',
       priority: selectedCard.priority || '중',
@@ -79,11 +79,9 @@ function App() {
     setIsModalOpen(true);
   };
 
-  // ★ 수정 포인트: JSON과 FormData를 구분해서 전송하여 "저장 실패" 해결
   const handleSave = async () => {
     if (!newCard.title) return alert("제목을 입력해주세요!");
     
-    // 전송할 기본 데이터 객체
     const cardData = {
       title: newCard.title,
       description: newCard.description,
@@ -99,19 +97,15 @@ function App() {
 
     try {
       if (isEditMode) {
-        // [수정 모드]
         if (selectedFile) {
-          // 이미지가 있으면 FormData 사용
           const formData = new FormData();
           Object.keys(cardData).forEach(key => formData.append(key, cardData[key]));
           formData.append('image', selectedFile);
           await axios.put(`http://localhost:4000/cards/${selectedCard.id}`, formData);
         } else {
-          // 이미지 없으면 JSON으로 전송 (백엔드 호환성 높임)
           await axios.put(`http://localhost:4000/cards/${selectedCard.id}`, cardData);
         }
       } else {
-        // [신규 생성 모드]
         const formData = new FormData();
         Object.keys(cardData).forEach(key => formData.append(key, cardData[key]));
         if (selectedFile) formData.append('image', selectedFile);

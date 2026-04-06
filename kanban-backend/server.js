@@ -50,8 +50,7 @@ app.get('/cards', (req, res) => {
     });
 });
 
-// [생성] 카드 정보 + 이미지 업로드 통합 (핵심!)
-// 이제 프론트에서 'image'라는 필드에 파일을 담아 보내면 됩니다.
+// [생성] 카드 정보 + 이미지 업로드 통합
 app.post('/cards', upload.single('image'), (req, res) => {
     // 프론트의 formData.append 이름과 100% 일치해야 함
     const { 
@@ -96,7 +95,7 @@ app.put('/cards/:id', (req, res) => {
         due_date, assignee, tag, link, color 
     } = req.body;
     
-    // SQL 문에 color와 누락되었던 다른 필드들도 포함시켰습니다.
+
     const sql = `UPDATE cards SET 
         title = ?, status = ?, column_id = ?, description = ?, priority = ?, 
         due_date = ?, assignee = ?, tag = ?, link = ?, color = ? 
