@@ -51,21 +51,40 @@ React와 REST API를 활용한 비동기 데이터 통신을 통해 사용자에
 
 ```mermaid
 classDiagram
-    class Board {
+    class App_Frontend {
         +cards: Array
-        +onDragEnd()
+        +selectedCard: Object
+        +fetchCards()
+        +handleSave()
+        +onDrop(columnId)
+        +getDDayInfo(dueDate)
     }
-    class Column {
-        +title: String
-        +status: String
+    class Express_Backend {
+        +GET /cards
+        +POST /cards
+        +PUT /cards/:id
+        +DELETE /cards/:id
+        +multer_storage
     }
-    class Card {
-        +title: String
-        +assignee: String
-        +deadline: Date
+    class MySQL_Database {
+        <<Table>>
+        cards
+        --
+        +id: int(PK)
+        +column_id: int
+        +title: varchar
+        +description: text
+        +assignee: varchar
+        +start_date: date
+        +due_date: date
+        +tag: varchar
+        +priority: varchar
+        +image_url: varchar
+        +color: varchar
     }
-    Board "1" --* "3" Column : contains
-    Column "1" --* "n" Card : displays
+
+    App_Frontend ..> Express_Backend : Axios (JSON/FormData)
+    Express_Backend --> MySQL_Database : mysql2.query()
 ```
 
 3.3 순서도.
