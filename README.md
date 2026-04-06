@@ -102,3 +102,15 @@ sequenceDiagram
     B-->>F: res.json({ message: '수정 완료' })
     F->>F: fetchCards() 호출 (화면 갱신)
 ```
+
+3.3 순서도
+```mermaid
+graph TD
+    Start([카드가 드롭됨]) --> Check{유효한 구역인가?}
+    Check -- No --> Rollback[원래 위치로 복구]
+    Check -- Yes --> UpdateUI[화면 상태 변경]
+    UpdateUI --> SendAPI[서버에 데이터 전송]
+    SendAPI --> Success{응답 성공?}
+    Success -- Yes --> Finish([최종 상태 확정])
+    Success -- No --> ErrorRollback[에러 알림 및 UI 롤백]
+```
