@@ -48,22 +48,22 @@ React와 REST API를 활용한 비동기 데이터 통신을 통해 사용자에
 3. 설계
 
 3.1 클래스 다이어그램
-```mermaid
 classDiagram
     class Board {
-        +cards: List~Card~
+        +cards: Array
         +onDragEnd()
     }
     class Column {
         +title: String
+        +status: String
     }
     class Card {
         +title: String
+        +assignee: String
         +deadline: Date
-        +dDayColor: String
     }
-    Board "1" --* "3" Column
-    Column "1" --* "n" Card
+    Board "1" --* "3" Column : contains
+    Column "1" --* "n" Card : displays
 
 
 3.2 순서 다이어그램
