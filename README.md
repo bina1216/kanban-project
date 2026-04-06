@@ -194,39 +194,27 @@ END FUNCTION
 - 데이터베이스: MySQL 
 
 4.2 시스템 아키텍처 
-C4Container
-    title 3-Tier 시스템 아키텍처 다이어그램 (게임 개발 칸반 보드 프로젝트)
+```mermaid
+graph TD
+    subgraph Tier1 [Tier 1: 클라이언트]
+        A[사용자 브라우저] --> B[React 애플리케이션]
+        B -- "Axios (HTTP 요청)" --> C
+    end
 
-    Person(user, "사용자", "게임 개발 파이프라인 실무자 (기획자, 아티스트, 개발자 등)")
+    subgraph Tier2 [Tier 2: 애플리케이션 서버]
+        C[Node.js / Express 서버]
+        C --> D[Multer: 파일 업로드]
+        C --> E[D-day 계산 로직]
+    end
 
-    System_Boundary(c1, "Tier 1: 클라이언트 (프론트엔드)") {
-        Container(browser, "사용자 브라우저", "Chrome, Firefox 등", "웹 브라우저 및 React 애플리케이션 실행 환경")
-        Container(react_app, "리액트 애플리케이션", "JavaScript/React", "칸반 보드 UI, 상태 관리, Axios 통신, D-day 시각화")
-    }
+    subgraph Tier3 [Tier 3: 데이터베이스]
+        C -- "SQL 쿼리" --> F[(MySQL)]
+    end
 
-    System_Boundary(c2, "Tier 2: 애플리케이션 서버 (백엔드)") {
-        Container(node_server, "Node.js / Express 서버", "JavaScript/Node.js", "REST API 제공, 비즈니스 로직 처리, SQL 쿼리 실행")
-        Container(multer_middleware, "Multer 미들웨어", "JavaScript/Node.js", "이미지 에셋 업로드 처리 및 uploads 폴더 로컬 저장")
-        Container(dday_logic, "D-day 계산 및 로직", "JavaScript/Node.js", "마감 기한 계산, 데이터 정규화")
-    }
-
-    System_Boundary(c3, "Tier 3: 데이터베이스 (데이터베이스)") {
-        Container(mysql_db, "MySQL 데이터베이스", "MySQL", "칸반 데이터 (카드 정보, D-day, 파일 경로, 색상) 영구 저장")
-    }
-
-    Rel(user, browser, "조작/입력", "UI 조작 및 데이터 입력")
-    Rel(browser, react_app, "실행/로딩", "React 코드 실행 및 UI 렌더링")
-    Rel(react_app, browser, "UI 업데이트", "React state", "데이터 변경 사항 화면 반영")
-    Rel(browser, user, "결과 확인", "웹 화면 표시", "업데이트된 칸반 보드 화면")
-
-    Rel(react_app, node_server, "HTTP REST API 요청", "Axios", "GET/POST/PUT/DELETE /cards, JSON/FormData")
-    Rel(node_server, react_app, "HTTP REST API 응답", "Express", "REST API 응답 데이터 (JSON)")
-
-    Rel(node_server, mysql_db, "SQL 쿼리 실행", "mysql2.query()", "카드 CRUD 작업 및 D-day 데이터 조회/수정")
-    Rel(mysql_db, node_server, "쿼리 결과 반환", "mysql2.query()", "데이터베이스 데이터 반환")
-
-    Rel(node_server, multer_middleware, "파일 저장 요청", "Express/Multer", "이미지 파일 업로드 및 uploads 폴더 기록")
-    Rel(node_server, dday_logic, "로직 처리 요청", "JavaScript", "D-day 계산 및 데이터 정규화")
+    style Tier1 fill:#f9f,stroke:#333,stroke-width:2px
+    style Tier2 fill:#bbf,stroke:#333,stroke-width:2px
+    style Tier3 fill:#dfd,stroke:#333,stroke-width:2px
+```
 
 
 4.3 핵심 API 명세
