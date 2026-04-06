@@ -98,6 +98,7 @@ sequenceDiagram
 ```
 
 3.3 순서도: 드래그 앤 드롭 상태 변경 로직
+
 드래그 앤 드롭 시 발생하는 UI 업데이트 및 예외 처리 로직
 ```mermaid
 graph TD
