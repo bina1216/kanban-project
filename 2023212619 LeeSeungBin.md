@@ -140,6 +140,7 @@ graph TD
   - 마무리: 저장이 끝나면 입력창을 닫고 카드가 바뀐 화면을 보여줌.
 
 4. 구현
+   
 4.1 개발 및 운영 환경
 - 개발 도구: Visual Studio Code, Git, GitHub Desktop
 - 프론트엔드: React, Axios, CSS3 
